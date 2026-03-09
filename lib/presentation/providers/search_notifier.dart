@@ -42,7 +42,7 @@ class SearchNotifier extends Notifier<SearchState> {
   Future<void> loadNextPage() async {
     if (state.isLoading || !state.hasMore) return;
 
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true, clearError: true);
 
     try {
       final nextPage = state.currentPage + 1;
@@ -59,6 +59,7 @@ class SearchNotifier extends Notifier<SearchState> {
         totalCount: result.totalCount,
         hasMore: allRepos.length < result.totalCount,
         isLoading: false,
+        clearError: true,
       );
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);

@@ -23,6 +23,7 @@ class SearchState {
     List<RepositoryEntity>? repositories,
     bool? isLoading,
     String? error,
+    bool clearError = false,
     String? query,
     int? currentPage,
     int? totalCount,
@@ -31,7 +32,7 @@ class SearchState {
     return SearchState(
       repositories: repositories ?? this.repositories,
       isLoading: isLoading ?? this.isLoading,
-      error: error,
+      error: clearError ? null : (error ?? this.error),
       query: query ?? this.query,
       currentPage: currentPage ?? this.currentPage,
       totalCount: totalCount ?? this.totalCount,

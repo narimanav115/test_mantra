@@ -20,13 +20,9 @@ export 'favorites_notifier.dart';
 export 'search_notifier.dart';
 export 'search_state.dart';
 
-// --- Core ---
-
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   throw UnimplementedError('Must be overridden at app startup');
 });
-
-// --- Data sources ---
 
 final gitHubRemoteDataSourceProvider = Provider<GitHubRemoteDataSource>((ref) {
   return GitHubRemoteDataSource();
@@ -37,8 +33,6 @@ final favoritesLocalDataSourceProvider =
   return FavoritesLocalDataSource(ref.watch(sharedPreferencesProvider));
 });
 
-// --- Repositories ---
-
 final gitHubRepositoryProvider = Provider<GitHubRepository>((ref) {
   return GitHubRepositoryImpl(ref.watch(gitHubRemoteDataSourceProvider));
 });
@@ -47,10 +41,7 @@ final favoritesRepositoryProvider = Provider<FavoritesRepository>((ref) {
   return FavoritesRepositoryImpl(ref.watch(favoritesLocalDataSourceProvider));
 });
 
-// --- Use cases ---
-
-final searchRepositoriesUseCaseProvider =
-    Provider<SearchRepositories>((ref) {
+final searchRepositoriesUseCaseProvider = Provider<SearchRepositories>((ref) {
   return SearchRepositories(ref.watch(gitHubRepositoryProvider));
 });
 
@@ -66,8 +57,6 @@ final getFavoritesUseCaseProvider = Provider<GetFavorites>((ref) {
 final toggleFavoriteUseCaseProvider = Provider<ToggleFavorite>((ref) {
   return ToggleFavorite(ref.watch(favoritesRepositoryProvider));
 });
-
-// --- State providers ---
 
 final favoritesProvider =
     NotifierProvider<FavoritesNotifier, List<RepositoryEntity>>(
